@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world-node
+spec:
+  containers:
+  - name: hello-world-node
+    image: jagna/hello-world-node:v2
+    ports:
+    - containerPort: 3000
