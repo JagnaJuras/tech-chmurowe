@@ -1,0 +1,32 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "3000"
+    depends_on:
+      - redis
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/mydatabase
+      - REDIS_URL=redis://redis:6379
+    command: ["npm", "start"]
+
+  redis:
+    image: "redis:alpine"
+
+  postgres:
+    image: "postgres:alpine"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+
+  nginx:
+    image: "nginx:alpine"
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
